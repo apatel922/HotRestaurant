@@ -1,25 +1,30 @@
-const http = require("http");
-const fs = require("fs");
-const PORT = 8080;
+// Dependencies
+// =============================================================
+var express = require("express");
+var path = require("path");
 
-// Create our server
-const server = http.createServer(handleRequest);
+// Sets up the Express App
+// =============================================================
+var app = express();
+var PORT = 3000;
 
-// Create a function for handling the requests and responses coming into our server
-function handleRequest(req, res) {
-
-    // Here we use the fs package to read our index.html file
-    fs.readFile(__dirname + "/home.html", function(err, data) {
-      if (err) throw err;
-      // We then respond to the client with the HTML page by specifically telling the browser that we are delivering
-      // an html file.
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.end(data);
-    });
-  }
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
   
-// Starts our server
-server.listen(PORT, function() {
-    console.log("Server is listening on PORT: " + PORT);
+
+
+app.get("/reservations", function(req, res) {
+  res.sendFile(path.join(__dirname, "/HTML/reservations.html"));
+});
+
+app.get("/tables", function(req, res) {
+  res.sendFile(path.join(__dirname, "/HTML/tables.html"));
+});
+
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "/HTML/home.html"));
+});
+  app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
   });
-  
