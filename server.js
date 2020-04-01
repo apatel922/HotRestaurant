@@ -12,7 +12,7 @@ var PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
   
-require(".api.js")(app);
+require("./api")(app);
 
 app.get("/reservations", function(req, res) {
   res.sendFile(path.join(__dirname, "/HTML/reservations.html"));
